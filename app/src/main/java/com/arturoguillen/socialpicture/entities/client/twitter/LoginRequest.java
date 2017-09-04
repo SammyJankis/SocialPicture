@@ -1,4 +1,4 @@
-package com.arturoguillen.socialpicture.entities.client;
+package com.arturoguillen.socialpicture.entities.client.twitter;
 
 import java.io.Serializable;
 
