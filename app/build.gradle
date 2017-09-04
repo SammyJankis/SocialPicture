@@ -10,6 +10,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        resValue 'string', 'CONSUMER_KEY', 'CiYJmsCKvrdHbFgf4VmgcB6gw'
+        resValue 'string', 'CONSUMER_SECRET', '6BNgT3Bx39sRNjBnF0heavqJ4iuyw9jpNe8LXI6A5k0MIHZg5d'
+
     }
     buildTypes {
         release {
@@ -25,6 +29,19 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    //Reactive
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+
+    //ButterKnife
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    //Twitter
+    compile 'com.twitter.sdk.android:twitter-core:3.1.1'
+
 }
