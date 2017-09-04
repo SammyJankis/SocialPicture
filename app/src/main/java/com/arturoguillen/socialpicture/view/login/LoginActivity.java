@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.arturoguillen.socialpicture.R;
-import com.arturoguillen.socialpicture.entities.client.LoginRequest;
+import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.model.LoginModel;
 import com.arturoguillen.socialpicture.presenter.LoginPresenter;
 import com.arturoguillen.socialpicture.view.feed.SearchActivity;

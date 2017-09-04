@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
-import com.arturoguillen.socialpicture.entities.client.LoginRequest;
+import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 
 /**
  * Created by arturo.guillen on 04/09/2017.

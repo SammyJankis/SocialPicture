@@ -1,6 +1,6 @@
 package com.arturoguillen.socialpicture.model;
 
-import com.arturoguillen.socialpicture.entities.client.LoginRequest;
+import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
