@@ -35,4 +35,20 @@ public class LoginRequest implements Serializable {
     public void setAuthId(String authId) {
         this.authId = authId;
     }
+
+    public Type getAuthType() {
+        return authType;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public String getAuthSecret() {
+        return authSecret;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
 }

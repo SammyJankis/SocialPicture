@@ -1,6 +1,8 @@
 package com.arturoguillen.socialpicture.presenter;
 
+import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.model.LoginModel;
+import com.arturoguillen.socialpicture.model.Preferences;
 import com.arturoguillen.socialpicture.view.login.LoginView;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -22,8 +24,12 @@ public class LoginPresenter implements PresenterInterface<LoginView> {
     LoginModel loginModel;
 
     @Inject
-    public LoginPresenter(LoginModel loginModel) {
+    Preferences preferences;
+
+    @Inject
+    public LoginPresenter(LoginModel loginModel, Preferences preferences) {
         this.loginModel = loginModel;
+        this.preferences = preferences;
     }
 
     @Override
@@ -37,19 +43,26 @@ public class LoginPresenter implements PresenterInterface<LoginView> {
     }
 
     public void twitter(TwitterLoginButton twitterLoginButton) {
-        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                if (view != null)
-                    view.loginOK(loginModel.providesLoginRequest(result));
-            }
+        LoginRequest loginRequest = preferences.getLoginData() ;
+        if (preferences.getLoginData()!=null) {
+            view.loginOK(loginRequest);
+        } else {
+            twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+                @Override
+                public void success(Result<TwitterSession> result) {
+                    if (view != null) {
+                        LoginRequest loginRequest = loginModel.providesLoginRequest(result);
+                        preferences.putLoginData(loginRequest);
+                        view.loginOK(loginRequest);
+                    }
+                }
 
-            @Override
-            public void failure(TwitterException exception) {
-                if (view != null)
-                    view.loginNOK(exception.getMessage());
-            }
-        });
-
+                @Override
+                public void failure(TwitterException exception) {
+                    if (view != null)
+                        view.loginNOK(exception.getMessage());
+                }
+            });
+        }
     }
 }

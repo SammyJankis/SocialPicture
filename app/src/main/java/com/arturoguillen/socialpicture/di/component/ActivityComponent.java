@@ -1,5 +1,6 @@
-package com.arturoguillen.socialpicture.di;
+package com.arturoguillen.socialpicture.di.component;
 
+import com.arturoguillen.socialpicture.di.module.SharedPreferencesModule;
 import com.arturoguillen.socialpicture.view.login.LoginActivity;
 
 import javax.inject.Singleton;
@@ -11,7 +12,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {})
+@Component(modules = {SharedPreferencesModule.class})
 public interface ActivityComponent {
     void inject(LoginActivity loginActivity);
 

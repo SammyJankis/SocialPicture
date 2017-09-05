@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.arturoguillen.socialpicture.R;
-import com.arturoguillen.socialpicture.di.ActivityComponent;
+import com.arturoguillen.socialpicture.di.component.ActivityComponent;
 import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.presenter.LoginPresenter;
 import com.arturoguillen.socialpicture.view.InjectedActivity;

@@ -3,8 +3,9 @@ package com.arturoguillen.socialpicture;
 import android.app.Application;
 import android.util.Log;
 
-import com.arturoguillen.socialpicture.di.ActivityComponent;
-import com.arturoguillen.socialpicture.di.DaggerActivityComponent;
+import com.arturoguillen.socialpicture.di.component.ActivityComponent;
+import com.arturoguillen.socialpicture.di.component.DaggerActivityComponent;
+import com.arturoguillen.socialpicture.di.module.SharedPreferencesModule;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -36,6 +37,7 @@ public class App extends Application {
 
     protected ActivityComponent createComponent() {
         return DaggerActivityComponent.builder()
+                .sharedPreferencesModule(new SharedPreferencesModule(this))
                 .build();
 
     }

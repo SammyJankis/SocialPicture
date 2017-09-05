@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.arturoguillen.socialpicture.App;
-import com.arturoguillen.socialpicture.di.ActivityComponent;
+import com.arturoguillen.socialpicture.di.component.ActivityComponent;
 
 
 /**
