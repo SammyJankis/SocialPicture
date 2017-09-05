@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.arturoguillen.socialpicture.R;
 import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
-import com.arturoguillen.socialpicture.model.LoginModel;
 import com.arturoguillen.socialpicture.presenter.LoginPresenter;
 import com.arturoguillen.socialpicture.view.feed.SearchActivity;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
@@ -17,20 +16,19 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
+    private LoginPresenter presenter;
+
     @BindView(R.id.twitter_login_button)
     TwitterLoginButton twitterLoginButton;
-
-    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        LoginModel loginModel = new LoginModel();
-        presenter = new LoginPresenter(loginModel);
+        presenter = new LoginPresenter();
         presenter.attachView(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         presenter.twitter(twitterLoginButton);
     }
 
@@ -43,7 +41,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 

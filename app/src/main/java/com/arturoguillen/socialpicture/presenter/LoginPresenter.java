@@ -17,8 +17,8 @@ public class LoginPresenter implements PresenterInterface<LoginView> {
     private LoginView view;
     private LoginModel loginModel;
 
-    public LoginPresenter(LoginModel loginModel) {
-        this.loginModel = loginModel;
+    public LoginPresenter() {
+        loginModel = new LoginModel();
     }
 
     @Override
