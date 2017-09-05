@@ -3,6 +3,8 @@ package com.arturoguillen.socialpicture;
 import android.app.Application;
 import android.util.Log;
 
+import com.arturoguillen.socialpicture.di.ActivityComponent;
+import com.arturoguillen.socialpicture.di.DaggerActivityComponent;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -14,10 +16,13 @@ import com.twitter.sdk.android.core.TwitterConfig;
 
 public class App extends Application {
 
+    private ActivityComponent component;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initTwitterSDK();
+        component = createComponent();
     }
 
     private void initTwitterSDK() {
@@ -27,5 +32,15 @@ public class App extends Application {
                 .debug(true)
                 .build();
         Twitter.initialize(config);
+    }
+
+    protected ActivityComponent createComponent() {
+        return DaggerActivityComponent.builder()
+                .build();
+
+    }
+
+    public ActivityComponent getComponent() {
+        return component;
     }
 }

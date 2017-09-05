@@ -17,6 +17,7 @@ public class SearchActivity extends AppCompatActivity {
     public static Intent createIntent(Context context, LoginRequest loginRequest) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra(EXTRA_LOGIN_REQUEST, loginRequest);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
     }
 }

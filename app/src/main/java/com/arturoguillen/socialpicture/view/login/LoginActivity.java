@@ -2,34 +2,43 @@ package com.arturoguillen.socialpicture.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.arturoguillen.socialpicture.R;
+import com.arturoguillen.socialpicture.di.ActivityComponent;
 import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.presenter.LoginPresenter;
+import com.arturoguillen.socialpicture.view.InjectedActivity;
 import com.arturoguillen.socialpicture.view.feed.SearchActivity;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity implements LoginView {
-
-    private LoginPresenter presenter;
+public class LoginActivity extends InjectedActivity implements LoginView {
 
     @BindView(R.id.twitter_login_button)
     TwitterLoginButton twitterLoginButton;
 
+    @Inject
+    LoginPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new LoginPresenter();
+
         presenter.attachView(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         presenter.twitter(twitterLoginButton);
+    }
+
+    @Override
+    protected void injectComponent(ActivityComponent component) {
+        component.inject(this);
     }
 
     @Override
@@ -47,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void loginOK(LoginRequest loginRequest) {
         startActivity(SearchActivity.createIntent(this, loginRequest));
+        finish();
     }
 
     @Override

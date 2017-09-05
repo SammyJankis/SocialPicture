@@ -8,6 +8,8 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import javax.inject.Inject;
+
 /**
  * Created by arturo.guillen on 04/09/2017.
  */
@@ -15,10 +17,13 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 public class LoginPresenter implements PresenterInterface<LoginView> {
 
     private LoginView view;
-    private LoginModel loginModel;
 
-    public LoginPresenter() {
-        loginModel = new LoginModel();
+    @Inject
+    LoginModel loginModel;
+
+    @Inject
+    public LoginPresenter(LoginModel loginModel) {
+        this.loginModel = loginModel;
     }
 
     @Override
@@ -42,7 +47,7 @@ public class LoginPresenter implements PresenterInterface<LoginView> {
             @Override
             public void failure(TwitterException exception) {
                 if (view != null)
-                    view.loginNOK("Error al loguearse en Twitter");
+                    view.loginNOK(exception.getMessage());
             }
         });
 
