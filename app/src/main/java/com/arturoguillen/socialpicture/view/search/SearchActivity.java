@@ -1,20 +1,33 @@
 package com.arturoguillen.socialpicture.view.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.arturoguillen.socialpicture.R;
 import com.arturoguillen.socialpicture.di.component.ActivityComponent;
 import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.presenter.SearchPresenter;
+import com.arturoguillen.socialpicture.utils.InstantAutoComplete;
 import com.arturoguillen.socialpicture.view.InjectedActivity;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by arturo.guillen on 04/09/2017.
@@ -29,6 +42,11 @@ public class SearchActivity extends InjectedActivity implements SearchView {
     @Inject
     SearchPresenter presenter;
 
+    @Inject
+    Picasso picasso;
+
+    @BindView(R.id.actv_search)
+    InstantAutoComplete searchTextView;
 
     @BindView(R.id.rv_list_images)
     RecyclerView listImages;
@@ -49,6 +67,11 @@ public class SearchActivity extends InjectedActivity implements SearchView {
         super.onCreate(savedInstanceState);
         presenter.attachView(this);
         setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
+
+        searchTerms = new ArrayList<>();
+        imageUrls = new ArrayList<>();
+
         searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, searchTerms);
 
         searchTextView.setAdapter(searchAdapter);
@@ -62,6 +85,22 @@ public class SearchActivity extends InjectedActivity implements SearchView {
         listImages.setLayoutManager(new GridLayoutManager(this, 2));
         ((SimpleItemAnimator) listImages.getItemAnimator()).setSupportsChangeAnimations(false);
     }
+
+    @OnClick(R.id.bt_search)
+    public void searchOnClick() {
+        hideSoftKeyboard();
+        String searchTerm = String.valueOf(searchTextView.getText());
+
+        addItemToHistory(searchTerm);
+        searchTextView.setText("");
+        presenter.search(searchTerm);
+    }
+
+    private void addItemToHistory(String searchTerm) {
+        searchTerms.add(0, searchTerm);
+        searchAdapter.clear();
+        searchAdapter.addAll(searchTerms);
+        searchAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -77,6 +116,9 @@ public class SearchActivity extends InjectedActivity implements SearchView {
 
     @Override
     public void searchOK(List<String> imagesUrls) {
+        ImagesAdapter adapter = (ImagesAdapter) listImages.getAdapter();
+        adapter.appendImages(imagesUrls);
+    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -98,5 +140,10 @@ public class SearchActivity extends InjectedActivity implements SearchView {
     @Override
     public void searchNOK(String s) {
         Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 }
