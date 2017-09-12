@@ -1,6 +1,7 @@
 package com.arturoguillen.socialpicture.model;
 
 import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
+import com.facebook.login.LoginResult;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
@@ -20,8 +21,13 @@ public class LoginModel {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setAuthType(LoginRequest.Type.TWITTER);
         loginRequest.setAuthToken(result.data.getAuthToken().token);
-        loginRequest.setAuthSecret(result.data.getAuthToken().secret);
-        loginRequest.setAuthId(String.valueOf(result.data.getUserId()));
+        return loginRequest;
+    }
+
+    public LoginRequest providesLoginRequest(LoginResult result) {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setAuthType(LoginRequest.Type.FACEBOOK);
+        loginRequest.setAuthToken(result.getAccessToken().getToken());
 
         return loginRequest;
     }

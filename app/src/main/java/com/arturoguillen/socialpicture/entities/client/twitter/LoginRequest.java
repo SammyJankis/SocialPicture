@@ -17,8 +17,6 @@ public class LoginRequest implements Serializable {
 
     private Type authType;
     private String authToken;
-    private String authSecret;
-    private String authId;
 
     public void setAuthType(Type authType) {
         this.authType = authType;
@@ -26,29 +24,5 @@ public class LoginRequest implements Serializable {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
-    }
-
-    public void setAuthSecret(String authSecret) {
-        this.authSecret = authSecret;
-    }
-
-    public void setAuthId(String authId) {
-        this.authId = authId;
-    }
-
-    public Type getAuthType() {
-        return authType;
-    }
-
-    public String getAuthToken() {
-        return authToken;
-    }
-
-    public String getAuthSecret() {
-        return authSecret;
-    }
-
-    public String getAuthId() {
-        return authId;
     }
 }

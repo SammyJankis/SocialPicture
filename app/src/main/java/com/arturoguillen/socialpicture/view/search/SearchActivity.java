@@ -37,7 +37,7 @@ public class SearchActivity extends InjectedActivity implements SearchView {
 
     private static final String EXTRA_LOGIN_REQUEST = "EXTRA_LOGIN_REQUEST";
     private static final String RECYCLERVIEW_STATE = "RECYCLERVIEW_STATE";
-    private static final String RECYCLEVIEW_CONTENT = "RECYCLEVIEW_CONTENT";
+    private static final String RECYCLERVIEW_CONTENT = "RECYCLERVIEW_CONTENT";
 
     @Inject
     SearchPresenter presenter;
@@ -125,7 +125,7 @@ public class SearchActivity extends InjectedActivity implements SearchView {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
             ImagesAdapter adapter = (ImagesAdapter) listImages.getAdapter();
-            adapter.appendImages(savedInstanceState.getStringArrayList(RECYCLEVIEW_CONTENT));
+            adapter.appendImages(savedInstanceState.getStringArrayList(RECYCLERVIEW_CONTENT));
             listImages.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(RECYCLERVIEW_STATE));
         }
     }
@@ -134,7 +134,7 @@ public class SearchActivity extends InjectedActivity implements SearchView {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(RECYCLERVIEW_STATE, listImages.getLayoutManager().onSaveInstanceState());
-        outState.putStringArrayList(RECYCLEVIEW_CONTENT, (ArrayList<String>) imageUrls);
+        outState.putStringArrayList(RECYCLERVIEW_CONTENT, (ArrayList<String>) imageUrls);
     }
 
     @Override

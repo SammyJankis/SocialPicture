@@ -10,6 +10,8 @@ import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.presenter.LoginPresenter;
 import com.arturoguillen.socialpicture.view.InjectedActivity;
 import com.arturoguillen.socialpicture.view.search.SearchActivity;
+import com.facebook.CallbackManager;
+import com.facebook.login.widget.LoginButton;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import javax.inject.Inject;
@@ -22,8 +24,13 @@ public class LoginActivity extends InjectedActivity implements LoginView {
     @BindView(R.id.twitter_login_button)
     TwitterLoginButton twitterLoginButton;
 
+    @BindView(R.id.facebook_login_button)
+    LoginButton facebookLoginButton;
+
     @Inject
     LoginPresenter presenter;
+
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,9 @@ public class LoginActivity extends InjectedActivity implements LoginView {
         ButterKnife.bind(this);
 
         presenter.twitter(twitterLoginButton);
+
+        callbackManager = CallbackManager.Factory.create();
+        presenter.facebook(facebookLoginButton, callbackManager);
     }
 
     @Override
@@ -51,6 +61,7 @@ public class LoginActivity extends InjectedActivity implements LoginView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

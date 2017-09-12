@@ -3,5 +3,6 @@
     <string name="search_title">Search</string>
     <string name="search_hint">search image …</string>
     <string name="twitter_login">Login with Twitter in case you want to retrieve Twitter pictures :</string>
+    <string name="facebook_login">Login with Facebook in case you want to retrieve Facebook pictures :</string>
 
 </resources>

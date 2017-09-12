@@ -4,6 +4,11 @@ import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.model.LoginModel;
 import com.arturoguillen.socialpicture.model.Preferences;
 import com.arturoguillen.socialpicture.view.login.LoginView;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -59,6 +64,35 @@ public class LoginPresenter implements PresenterInterface<LoginView> {
 
                 @Override
                 public void failure(TwitterException exception) {
+                    if (view != null)
+                        view.loginNOK(exception.getMessage());
+                }
+            });
+        }
+    }
+
+    public void facebook(LoginButton facebookLoginButton, CallbackManager callbackManager) {
+        LoginRequest loginRequest = preferences.getLoginData();
+        if (preferences.getLoginData() != null) {
+            view.loginOK(loginRequest);
+        } else {
+            facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult result) {
+                    if (view != null) {
+                        LoginRequest loginRequest = loginModel.providesLoginRequest(result);
+                        preferences.putLoginData(loginRequest);
+                        view.loginOK(loginRequest);
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
                     if (view != null)
                         view.loginNOK(exception.getMessage());
                 }
