@@ -9,7 +9,7 @@ import com.arturoguillen.socialpicture.di.component.ActivityComponent;
 import com.arturoguillen.socialpicture.entities.client.twitter.LoginRequest;
 import com.arturoguillen.socialpicture.presenter.LoginPresenter;
 import com.arturoguillen.socialpicture.view.InjectedActivity;
-import com.arturoguillen.socialpicture.view.feed.SearchActivity;
+import com.arturoguillen.socialpicture.view.search.SearchActivity;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import javax.inject.Inject;
