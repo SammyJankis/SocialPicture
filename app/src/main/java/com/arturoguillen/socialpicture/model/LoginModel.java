@@ -11,7 +11,7 @@ import javax.inject.Inject;
  */
 
 public class LoginModel {
-    
+
     @Inject
     public LoginModel() {
     }

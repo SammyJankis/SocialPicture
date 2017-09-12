@@ -23,9 +23,19 @@ import javax.inject.Inject;
 public class SearchActivity extends InjectedActivity implements SearchView {
 
     private static final String EXTRA_LOGIN_REQUEST = "EXTRA_LOGIN_REQUEST";
+    private static final String RECYCLERVIEW_STATE = "RECYCLERVIEW_STATE";
+    private static final String RECYCLEVIEW_CONTENT = "RECYCLEVIEW_CONTENT";
 
     @Inject
     SearchPresenter presenter;
+
+
+    @BindView(R.id.rv_list_images)
+    RecyclerView listImages;
+
+    private ArrayAdapter<String> searchAdapter;
+    private List<String> searchTerms;
+    private List<String> imageUrls;
 
     public static Intent createIntent(Context context, LoginRequest loginRequest) {
         Intent intent = new Intent(context, SearchActivity.class);
@@ -39,7 +49,19 @@ public class SearchActivity extends InjectedActivity implements SearchView {
         super.onCreate(savedInstanceState);
         presenter.attachView(this);
         setContentView(R.layout.activity_search);
+        searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, searchTerms);
 
+        searchTextView.setAdapter(searchAdapter);
+
+        setupRecyclerView();
+    }
+
+    private void setupRecyclerView() {
+        ImagesAdapter imagesAdapter = new ImagesAdapter(picasso, imageUrls);
+        listImages.setAdapter(imagesAdapter);
+        listImages.setLayoutManager(new GridLayoutManager(this, 2));
+        ((SimpleItemAnimator) listImages.getItemAnimator()).setSupportsChangeAnimations(false);
+    }
     }
 
     @Override
@@ -56,6 +78,21 @@ public class SearchActivity extends InjectedActivity implements SearchView {
     @Override
     public void searchOK(List<String> imagesUrls) {
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            ImagesAdapter adapter = (ImagesAdapter) listImages.getAdapter();
+            adapter.appendImages(savedInstanceState.getStringArrayList(RECYCLEVIEW_CONTENT));
+            listImages.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(RECYCLERVIEW_STATE));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(RECYCLERVIEW_STATE, listImages.getLayoutManager().onSaveInstanceState());
+        outState.putStringArrayList(RECYCLEVIEW_CONTENT, (ArrayList<String>) imageUrls);
     }
 
     @Override

@@ -43,8 +43,8 @@ public class LoginPresenter implements PresenterInterface<LoginView> {
     }
 
     public void twitter(TwitterLoginButton twitterLoginButton) {
-        LoginRequest loginRequest = preferences.getLoginData() ;
-        if (preferences.getLoginData()!=null) {
+        LoginRequest loginRequest = preferences.getLoginData();
+        if (preferences.getLoginData() != null) {
             view.loginOK(loginRequest);
         } else {
             twitterLoginButton.setCallback(new Callback<TwitterSession>() {
